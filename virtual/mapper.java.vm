@@ -1,0 +1,33 @@
+##导入宏定义
+$!{define.vm} 
+
+##设置表后缀（宏定义）
+#setTableSuffix("Mapper")
+
+##保存文件（宏定义）
+#save("/mapper", "Mapper.kt")
+
+##包路径（宏定义）
+#setPackageSuffix("mapper")
+
+import $!{tableInfo.savePackageName}.domain.dto.$!{tableInfo.name}DTO
+import $!{tableInfo.savePackageName}.domain.dto.$!{tableInfo.name}PageDTO
+import $!{tableInfo.savePackageName}.domain.vo.$!{tableInfo.name}VO
+import $!{tableInfo.savePackageName}.domain.bo.$!{tableInfo.name}BO
+import $!{tableInfo.savePackageName}.domain.po.$!{tableInfo.name}PO
+import com.bbbang.parent.mapper.BasicMapperExtend
+import org.mapstruct.*
+import org.mapstruct.factory.Mappers
+
+
+@MapperConfig(unmappedTargetPolicy=ReportingPolicy.IGNORE)
+@Mapper(builder = Builder(disableBuilder = true),
+  unmappedSourcePolicy= ReportingPolicy.IGNORE,
+  nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
+  unmappedTargetPolicy = ReportingPolicy.IGNORE)
+interface $!{tableName}:BasicMapperExtend<$!{tableInfo.name}DTO,$!{tableInfo.name}PageDTO,$!{tableInfo.name}BO,$!{tableInfo.name}PO,$!{tableInfo.name}VO> {
+
+  companion object {
+    val  MAPPER:$!{tableInfo.name}Mapper = Mappers.getMapper($!{tableInfo.name}Mapper::class.java)
+  }
+}

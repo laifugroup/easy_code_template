@@ -1,0 +1,35 @@
+##导入宏定义
+$!{define.vm} 
+
+#set($tableDaoName = $tool.append($tableInfo.name, "Repository"))
+#set($tableLowDaoName = $tool.firstLowerCase($tableDaoName))
+
+##设置表后缀（宏定义）
+#setTableSuffix("Service")
+
+##保存文件（宏定义）
+#save("/service", "Service.kt")
+
+##包路径（宏定义）
+#setPackageSuffix("service")
+
+import $!{tableInfo.savePackageName}.repository.$!{tableInfo.name}Repository
+import $!{tableInfo.savePackageName}.service.$!{tableInfo.name}Service
+import $!{tableInfo.savePackageName}.domain.vo.$!{tableInfo.name}VO
+import $!{tableInfo.savePackageName}.domain.bo.$!{tableInfo.name}BO
+import $!{tableInfo.savePackageName}.domain.dto.$!{tableInfo.name}DTO
+import $!{tableInfo.savePackageName}.domain.dto.$!{tableInfo.name}PageDTO
+import $!{tableInfo.savePackageName}.domain.po.$!{tableInfo.name}PO
+import $!{tableInfo.savePackageName}.mapper.$!{tableInfo.name}Mapper
+import com.bbbang.parent.service.impl.BaseServiceImpl
+import jakarta.inject.Inject
+import jakarta.inject.Singleton
+
+
+@Singleton
+open class $!{tableName}(private val repository: $!{tableInfo.name}Repository) 
+:BaseServiceImpl<$!{tableInfo.name}DTO, $!{tableInfo.name}PageDTO, $!{tableInfo.name}BO, $!{tableInfo.name}PO, $!{tableInfo.name}VO>(repository, $!{tableInfo.name}Mapper.MAPPER){
+
+
+
+}
