@@ -1,0 +1,55 @@
+##导入宏定义
+$!{define.vm} 
+
+##保存文件（宏定义）
+#save("/domain/vo", "VO.kt")
+
+##包路径（宏定义）
+#setPackageSuffix("domain.vo")
+
+import com.bbbang.parent.entities.BaseEntity
+import com.fasterxml.jackson.annotation.JsonFormat
+import com.fasterxml.jackson.databind.annotation.JsonSerialize
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer
+import io.micronaut.core.annotation.Introspected
+import io.swagger.v3.oas.annotations.media.Schema
+import java.time.LocalDateTime
+import java.util.Date
+import java.math.BigDecimal
+
+@Schema()
+@Introspected
+data class $!{tableInfo.name}VO(
+#foreach($column in $tableInfo.fullColumn)
+#if(${column.name}!="createdAt"&&${column.name}!="updatedAt"&&${column.name}!="deletedAt"&&${column.name}!="id")
+#if(${column.comment})
+#set($start=${column.comment.indexOf("[")} + 1)
+#if(${column.shortType}=="String")
+    @field:Schema(description = "${column.comment}",example = "#if(${column.comment.indexOf("[")}!=-1)${column.comment.substring($start,${column.comment.indexOf("]")})}#end",required=true)
+#end
+#if(${column.shortType}=="Long")
+    @field:Schema(description = "${column.comment}",type="string",example = "1339468674200637453",required=true)
+#end
+#if(${column.shortType}=="Integer" || ${column.shortType}=="Int" || ${column.shortType}=="BigDecimal")
+    @field:Schema(description = "${column.comment}",example = "1",required=true)
+#end
+#if(${column.shortType}=="Boolean")
+    @field:Schema(description = "${column.comment}",example = "false",required=true)
+#end
+#if(${column.shortType}=="LocalDateTime"||${column.shortType}=="Date")
+    @field:Schema(description = "${column.comment}",type = "string" ,example = "2025-02-20 20:20:20",required=true)
+#end
+#end
+#if(${column.shortType}=="Long")
+    @field:JsonSerialize(using = ToStringSerializer::class)
+#end
+#if(${column.shortType}=="LocalDateTime"||${column.shortType}=="Date")
+    @field:JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="Asia/shanghai")
+#end
+    var  $!{column.name}:$!{tool.getClsNameByFullName($column.type)}?=null,
+	
+#end
+#end
+) : BaseEntity() {
+ 
+}
