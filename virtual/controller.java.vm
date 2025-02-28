@@ -39,12 +39,14 @@ import io.micronaut.security.authentication.Authentication
 import jakarta.validation.Valid
 import jakarta.validation.constraints.NotEmpty
 import com.bbbang.parent.rule.SecurityRules
-
+import io.micronaut.scheduling.TaskExecutors
+import io.micronaut.scheduling.annotation.ExecuteOn
 
 @Controller("/v1/$tableInfo.obj.name")
 @Tag(name = "$tableInfo.obj.name", description = "$tableInfo.obj.comment")
 @Introspected
 @Validated
+@ExecuteOn(TaskExecutors.VIRTUAL)
 @Secured(value = [SecurityRules.IS_AUTHENTICATED])
  class $!{tableName}(
   private val $!{serviceName}: $!{tableInfo.name}Service
@@ -55,7 +57,7 @@ import com.bbbang.parent.rule.SecurityRules
     @Post()
     @SingleResult
 	@Secured(value = [SecurityRules.IS_AUTHENTICATED])
-     fun create(@Valid @Body $!{entityName}DTO: $!{tableInfo.name}DTO): Mono<Rsp<$!{tableInfo.name}VO>> {
+     fun create(@Valid @Body $!{entityName}DTO: $!{tableInfo.name}DTO): Rsp<$!{tableInfo.name}VO> {
         val param=$!{tableInfo.name}Mapper.MAPPER.dto2bo($!{entityName}DTO)
         val result=$!{serviceName}.save(param)
         return Rsp.success(result)
@@ -65,7 +67,7 @@ import com.bbbang.parent.rule.SecurityRules
     @Post("/list")
     @SingleResult
 	@Secured(value = [SecurityRules.IS_AUTHENTICATED])
-     fun createList(@Valid @Body $!{entityName}DTO: List<$!{tableInfo.name}DTO>): Mono<Rsp<List<$!{tableInfo.name}VO?>>> {
+     fun createList(@Valid @Body $!{entityName}DTO: List<$!{tableInfo.name}DTO>): Rsp<List<$!{tableInfo.name}VO?>> {
         val param=$!{tableInfo.name}Mapper.MAPPER.dto2bo($!{entityName}DTO)
         val result=$!{serviceName}.saveList(param)
         return Rsp.success(result)
@@ -82,7 +84,7 @@ import com.bbbang.parent.rule.SecurityRules
      fun delete(@NotEmpty(message = "[id]不能为空")
 			   @QueryValue("id")
 			   @Parameter(description = "唯一ID",example = "1541693333435453441",required =  true)
-			   id:Long):Mono<Rsp<Long>> {
+			   id:Long):Rsp<Long> {
         val result=$!{serviceName}.delete(id)
         return Rsp.success(result)
     }
@@ -96,7 +98,7 @@ import com.bbbang.parent.rule.SecurityRules
      fun delete(@NotEmpty(message = "[ids]不能为空")
 			   @QueryValue
 			   @Parameter(description = "唯一IDs",example = "1541693333435453441",required =  true)
-			   ids:List<Long>):Mono<Rsp<Int>> {
+			   ids:List<Long>):Rsp<Int> {
         val result=$!{serviceName}.delete(ids)
         return Rsp.success(result)
     }
@@ -108,7 +110,7 @@ import com.bbbang.parent.rule.SecurityRules
      fun deleteByLogic(@NotEmpty(message = "[id]不能为空")
 			   @QueryValue("id")
 			   @Parameter(description = "唯一ID",example = "1541693333435453441",required =  true)
-			   id:Long):Mono<Rsp<Int>> {
+			   id:Long):Rsp<Int> {
         val result=$!{serviceName}.deleteByLogic(id)
         return Rsp.success(result)
     }
@@ -120,7 +122,7 @@ import com.bbbang.parent.rule.SecurityRules
      fun deleteByLogic(@NotEmpty(message = "[ids]不能为空")
 			   @QueryValue
 			   @Parameter(description = "唯一IDs",example = "1541693333435453441",required =  true)
-			   ids:List<Long>):Mono<Rsp<Int>> {
+			   ids:List<Long>):Rsp<Int> {
         val result=$!{serviceName}.deleteByLogic(ids)
         return Rsp.success(result)
     }
@@ -136,7 +138,7 @@ import com.bbbang.parent.rule.SecurityRules
      fun recoveryByLogic(@NotEmpty(message = "[id]不能为空")
 			   @QueryValue("id")
 			   @Parameter(description = "唯一ID",example = "1541693333435453441",required =  true)
-			   id:Long):Mono<Rsp<Int>> {
+			   id:Long):Rsp<Int> {
         val result=$!{serviceName}.recoveryByLogic(id)
         return Rsp.success(result)
     }
@@ -150,7 +152,7 @@ import com.bbbang.parent.rule.SecurityRules
      fun recoveryByLogic(@NotEmpty(message = "[ids]不能为空")
 			   @QueryValue
 			   @Parameter(description = "唯一IDs",example = "1541693333435453441",required =  true)
-			   ids:List<Long>):Mono<Rsp<Int>> {
+			   ids:List<Long>):Rsp<Int> {
         val result=$!{serviceName}.recoveryByLogic(ids)
         return Rsp.success(result)
     }
@@ -165,7 +167,7 @@ import com.bbbang.parent.rule.SecurityRules
 			    @QueryValue
 			    @Parameter(description = "唯一ID",example = "1541693333435453441",required =  true)
 				id:Long,
-				@Valid @Body $!{entityName}PageDTO: $!{tableInfo.name}PageDTO): Mono<Rsp<$!{tableInfo.name}VO?>> {
+				@Valid @Body $!{entityName}PageDTO: $!{tableInfo.name}PageDTO): Rsp<$!{tableInfo.name}VO?> {
         val param=$!{tableInfo.name}Mapper.MAPPER.pageDto2bo($!{entityName}PageDTO)
            
         val result=$!{serviceName}.update(id,param)
@@ -180,7 +182,7 @@ import com.bbbang.parent.rule.SecurityRules
 				@NotEmpty(message = "[id]不能为空")
 			    @QueryValue("id")
 			    @Parameter(description = "唯一ID",example = "1541693333435453441",required =  true)
-				id:Long):Mono<Rsp<$!{tableInfo.name}VO?>> {
+				id:Long):Rsp<$!{tableInfo.name}VO?> {
         val result=$!{serviceName}.findById(id)
         return Rsp.success(result)
     }
@@ -190,7 +192,7 @@ import com.bbbang.parent.rule.SecurityRules
     @Operation(summary ="[查询]分页查询记录")
     @Get("/page{?pageDTO*}{?pageable*}")
 	@Secured(value = [SecurityRules.IS_AUTHENTICATED])
-     fun getPageList(@QueryValue pageable: PageableDTO,@QueryValue pageDTO:$!{tableInfo.name}PageDTO):Mono<Rsp<RspPagination<$!{tableInfo.name}VO?>>> {
+     fun getPageList(@QueryValue pageable: PageableDTO,@QueryValue pageDTO:$!{tableInfo.name}PageDTO):Rsp<RspPagination<$!{tableInfo.name}VO?>> {
         val param=$!{tableInfo.name}Mapper.MAPPER.pageDto2bo(pageDTO)
         val result=$!{serviceName}.findPage(param,pageable.into())
         return Rsp.success(result)
@@ -203,7 +205,7 @@ import com.bbbang.parent.rule.SecurityRules
     @Operation(summary ="[查询]分页查询[含逻辑删除]记录")
     @Get("/page/logic{?pageDTO*}{?pageable*}")
 	@Secured(value = [SecurityRules.IS_ADMIN])
-     fun getPageLogicList(@QueryValue pageable:PageableDTO,@QueryValue  pageDTO:$!{tableInfo.name}PageDTO):Mono<Rsp<RspPagination<$!{tableInfo.name}VO?>>>  {
+     fun getPageLogicList(@QueryValue pageable:PageableDTO,@QueryValue  pageDTO:$!{tableInfo.name}PageDTO):Rsp<RspPagination<$!{tableInfo.name}VO?>>  {
         val param=$!{tableInfo.name}Mapper.MAPPER.pageDto2bo(pageDTO)
         val result=$!{serviceName}.findUnLimitPage(param,pageable.into())
         return Rsp.success(result)
@@ -215,7 +217,7 @@ import com.bbbang.parent.rule.SecurityRules
     @Operation(summary ="[查询]条件查询所有记录")
     @Get("/all/list{?pageDTO*}")
 	@Secured(value = [SecurityRules.IS_ADMIN])
-     fun  getList(@QueryValue pageDTO:$!{tableInfo.name}PageDTO):Mono<Rsp<List<$!{tableInfo.name}VO?>>> {
+     fun  getList(@QueryValue pageDTO:$!{tableInfo.name}PageDTO):Rsp<List<$!{tableInfo.name}VO?>> {
        val param=$!{tableInfo.name}Mapper.MAPPER.pageDto2bo(pageDTO)
         val result=$!{serviceName}.findLimitAll(param)
         return Rsp.success(result)
@@ -227,7 +229,7 @@ import com.bbbang.parent.rule.SecurityRules
 	@Operation(summary ="[查询]查询所有记录")
     @Get("/all")
 	@Secured(value = [SecurityRules.IS_ADMIN])
-     fun  getAll():Mono<Rsp<List<$!{tableInfo.name}VO?>>> {
+     fun  getAll():Rsp<List<$!{tableInfo.name}VO?>> {
         val result=$!{serviceName}.findLimitAll()
         return Rsp.success(result)
     }
@@ -238,7 +240,7 @@ import com.bbbang.parent.rule.SecurityRules
     @Operation(summary ="[查询]查询所有[含逻辑删除]记录")
     @Get("/all/unLimit")
 	@Secured(value = [SecurityRules.IS_ADMIN])
-     fun getAllLogicList(@Nullable authentication:Authentication):Mono<Rsp<List<$!{tableInfo.name}VO?>> > {
+     fun getAllLogicList(@Nullable authentication:Authentication):Rsp<List<$!{tableInfo.name}VO?>> {
         val result=$!{serviceName}.findUnLimitAll()
         return Rsp.success(result)
     }

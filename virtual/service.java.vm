@@ -21,14 +21,14 @@ import $!{tableInfo.savePackageName}.domain.dto.$!{tableInfo.name}DTO
 import $!{tableInfo.savePackageName}.domain.dto.$!{tableInfo.name}PageDTO
 import $!{tableInfo.savePackageName}.domain.po.$!{tableInfo.name}PO
 import $!{tableInfo.savePackageName}.mapper.$!{tableInfo.name}Mapper
-import com.bbbang.parent.service.impl.BaseServiceImpl
+import com.bbbang.parent.service2.impl.BaseServiceImpl2
 import jakarta.inject.Inject
 import jakarta.inject.Singleton
 
 
 @Singleton
 open class $!{tableName}(private val repository: $!{tableInfo.name}Repository) 
-:BaseServiceImpl<$!{tableInfo.name}DTO, $!{tableInfo.name}PageDTO, $!{tableInfo.name}BO, $!{tableInfo.name}PO, $!{tableInfo.name}VO>(repository, $!{tableInfo.name}Mapper.MAPPER){
+:BaseServiceImpl2<$!{tableInfo.name}DTO, $!{tableInfo.name}PageDTO, $!{tableInfo.name}BO, $!{tableInfo.name}PO, $!{tableInfo.name}VO>(repository, $!{tableInfo.name}Mapper.MAPPER){
 
 
 
