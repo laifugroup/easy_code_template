@@ -41,6 +41,7 @@ import jakarta.validation.constraints.NotEmpty
 import com.bbbang.parent.rule.SecurityRules
 import io.micronaut.scheduling.TaskExecutors
 import io.micronaut.scheduling.annotation.ExecuteOn
+import jakarta.validation.constraints.NotNull
 
 @Controller("/v1/$tableInfo.obj.name")
 @Tag(name = "$tableInfo.obj.name", description = "$tableInfo.obj.comment")
@@ -81,7 +82,7 @@ import io.micronaut.scheduling.annotation.ExecuteOn
     @Delete()
     @SingleResult
 	@Secured(value = [SecurityRules.IS_ADMIN])
-     fun delete(@NotEmpty(message = "[id]不能为空")
+     fun delete(@NotNull(message = "[id]不能为空")
 			   @QueryValue("id")
 			   @Parameter(description = "唯一ID",example = "1541693333435453441",required =  true)
 			   id:Long):Rsp<Long> {
@@ -107,7 +108,7 @@ import io.micronaut.scheduling.annotation.ExecuteOn
     @Delete("/logic")
     @SingleResult
 	@Secured(value = [SecurityRules.IS_AUTHENTICATED])
-     fun deleteByLogic(@NotEmpty(message = "[id]不能为空")
+     fun deleteByLogic(@NotNull(message = "[id]不能为空")
 			   @QueryValue("id")
 			   @Parameter(description = "唯一ID",example = "1541693333435453441",required =  true)
 			   id:Long):Rsp<Int> {
@@ -135,7 +136,7 @@ import io.micronaut.scheduling.annotation.ExecuteOn
     @Put("/logic")
     @SingleResult
 	@Secured(value = [SecurityRules.IS_ADMIN])
-     fun recoveryByLogic(@NotEmpty(message = "[id]不能为空")
+     fun recoveryByLogic(@NotNull(message = "[id]不能为空")
 			   @QueryValue("id")
 			   @Parameter(description = "唯一ID",example = "1541693333435453441",required =  true)
 			   id:Long):Rsp<Int> {
@@ -163,7 +164,7 @@ import io.micronaut.scheduling.annotation.ExecuteOn
     @Put
 	@Secured(value = [SecurityRules.IS_AUTHENTICATED])
      fun update(
-				@NotEmpty(message = "[id]不能为空")
+				@NotNull(message = "[id]不能为空")
 			    @QueryValue
 			    @Parameter(description = "唯一ID",example = "1541693333435453441",required =  true)
 				id:Long,
@@ -179,7 +180,7 @@ import io.micronaut.scheduling.annotation.ExecuteOn
     @Get()
 	@Secured(value = [SecurityRules.IS_AUTHENTICATED])
      fun getRecord(
-				@NotEmpty(message = "[id]不能为空")
+				@NotNull(message = "[id]不能为空")
 			    @QueryValue("id")
 			    @Parameter(description = "唯一ID",example = "1541693333435453441",required =  true)
 				id:Long):Rsp<$!{tableInfo.name}VO?> {
@@ -240,7 +241,7 @@ import io.micronaut.scheduling.annotation.ExecuteOn
     @Operation(summary ="[查询]查询所有[含逻辑删除]记录")
     @Get("/all/unLimit")
 	@Secured(value = [SecurityRules.IS_ADMIN])
-     fun getAllLogicList(@Nullable authentication:Authentication):Rsp<List<$!{tableInfo.name}VO?>> {
+     fun getAllLogicList(@Nullable authentication:Authentication?):Rsp<List<$!{tableInfo.name}VO?>> {
         val result=$!{serviceName}.findUnLimitAll()
         return Rsp.success(result)
     }
