@@ -11,7 +11,7 @@ $!callback.setSavePath($tool.append($tableInfo.savePath, "/repository"))
 
 #if($tableInfo.savePackageName)package $!{tableInfo.savePackageName}.#{end}repository;
 import $!{tableInfo.savePackageName}.domain.po.$!{tableInfo.name}PO
-import com.bbbang.parent.repository2.BasePageableRepository2
+import com.micronaut.parent.repository2.BasePageableRepository2
 import io.micronaut.core.annotation.NonNull
 import io.micronaut.data.annotation.Id
 import io.micronaut.data.annotation.Repository

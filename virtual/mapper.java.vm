@@ -15,7 +15,7 @@ import $!{tableInfo.savePackageName}.domain.dto.$!{tableInfo.name}PageDTO
 import $!{tableInfo.savePackageName}.domain.vo.$!{tableInfo.name}VO
 import $!{tableInfo.savePackageName}.domain.bo.$!{tableInfo.name}BO
 import $!{tableInfo.savePackageName}.domain.po.$!{tableInfo.name}PO
-import com.bbbang.parent.mapper.BasicMapperExtend
+import com.micronaut.parent.mapper.BasicMapperExtend
 import org.mapstruct.*
 import org.mapstruct.factory.Mappers
 

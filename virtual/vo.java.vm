@@ -7,7 +7,7 @@ $!{define.vm}
 ##包路径（宏定义）
 #setPackageSuffix("domain.vo")
 
-import com.bbbang.parent.entities.BaseEntity
+import com.micronaut.parent.entities.BaseEntity
 import com.fasterxml.jackson.annotation.JsonFormat
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer

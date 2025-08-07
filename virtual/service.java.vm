@@ -21,7 +21,7 @@ import $!{tableInfo.savePackageName}.domain.dto.$!{tableInfo.name}DTO
 import $!{tableInfo.savePackageName}.domain.dto.$!{tableInfo.name}PageDTO
 import $!{tableInfo.savePackageName}.domain.po.$!{tableInfo.name}PO
 import $!{tableInfo.savePackageName}.mapper.$!{tableInfo.name}Mapper
-import com.bbbang.parent.service2.impl.BaseServiceImpl2
+import com.micronaut.parent.service2.impl.BaseServiceImpl2
 import jakarta.inject.Inject
 import jakarta.inject.Singleton
 

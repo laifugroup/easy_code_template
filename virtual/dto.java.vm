@@ -28,8 +28,7 @@ data class $!{tableInfo.name}DTO(
 #if(${column.shortType}=="String")
     @field:Schema(description = "${column.comment}",example = "#if(${column.comment.indexOf("[")}!=-1)${column.comment.substring($start,${column.comment.indexOf("]")})}#end",required=true)
 	@field:NotBlank(message = "[${column.comment.substring(0,$end)}]不能为空")
-	@field:Pattern(regexp = "\\S*",message="[${column.comment.substring(0,$end)}]不符合规则")
-    @field:Size(min=2, max = 64, message = "[${column.comment.substring(0,$end)}]长度范围2-64")
+    @field:Size(min=2, max = 256, message = "[${column.comment.substring(0,$end)}]长度范围2-256")
 #end
 #if(${column.shortType}=="Long")
     @field:Schema(description = "${column.comment}",type="string",example = "1339468674200637453",required=true)
